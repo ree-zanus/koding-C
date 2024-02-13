@@ -10,9 +10,13 @@
 
 int main()
 {
-    double arra[3][3];
-    arr [0] = 2;
-    printf("%lf\n",&arra);
-
+    double arr[3][3];
+    printf("Введите значения массива:");
+    for(int i = 0; i<3; i++) {
+        for(int j = 0; j<3; j++) {
+            scanf("%lf", &arr[i][j]);
+            
+        }
+    }    
     return 0;
 }
