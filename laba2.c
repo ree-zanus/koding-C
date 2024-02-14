@@ -7,23 +7,26 @@
 /* 1.	Объявить массив данных типа int размером 2 на 2. */
 /* 2. Ввести с консоли его значения, */
 /* 3. вывести на консоль квадрат данной матрицы.*/
-
 #include <stdio.h>
 int main()
 {
     double arr[3][3];
+    double sum_dg = 0;
+    double sum_dp = 0;
     printf("Введите значения массива:");
-    for(int i = 0; i<3; i++) {
+    
+     for(int i = 0; i<3; i++) {
         for(int j = 0; j<3; j++) {
             scanf("%lf", &arr[i][j]);
             
         }
     }    
      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            printf("%lf ", arr[i][j]);
-        }
-        printf("\n");
-    }
+        sum_dg += arr[i][i];
+        sum_dp += arr[i][2-i]; 
+    } 
+    printf("Сумма по главной диагонали: %lf\n", sum_dg);
+    printf("Сумма по побочной диагонали: %lf\n", sum_dp);
+     
     return 0;
 }
