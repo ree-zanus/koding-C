@@ -35,6 +35,26 @@ int main()
 /* 2. Ввести с консоли его значения, */
 /* 3. вывести на консоль квадрат данной матрицы.*/
 #include <stdio.h>
-int main()
-{
+
+int main() {
     int arr[2][2];
+    
+    printf("Введите значения массива:\n");
+    
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            scanf("%d", &arr[i][j]); 
+        }
+    }    
+    
+    printf("Квадрат матрицы:\n");
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            int Kv = arr[i][j] * arr[i][j];
+            printf("%d ", Kv);
+        }
+        printf("\n");
+    }
+    
+    return 0;
+}
