@@ -37,4 +37,4 @@ int main()
 #include <stdio.h>
 int main()
 {
-    double arr[2][2];
+    int arr[2][2];
