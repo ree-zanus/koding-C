@@ -7,31 +7,40 @@
 /* 3. вывести на консоль квадрат  данной матрицы.*/
 #include <stdio.h>
 int main()
-#include <stdio.h>
-int main()
 {
-    double arr[3][3];
-    double sum_dg = 0;
-    double sum_dp = 0;
-    printf("Введите значения массива:");
-    
-    for(int i = 0; i<3; i++) 
-    {
-        for(int j = 0; j<3; j++) 
+    int i,j;
+    int N,M;
+    int x;
+    do{
+        printf("Введите кол-во строку: ");
+        scanf("%d", &N);
+        printf("Введите кол-во столбцов: ");
+        scanf("%d", &M);
+        double arr[N][M];
+        double sum_dg = 0;
+        double sum_dp = 0;
+        printf("Введите значения массива:");
+        
+        for(int i = 0; i<N; i++) 
         {
-            scanf("%lf", &arr[i][j]); 
-        }
-    }    
-        for (int i = 0; i < 3; i++) 
-    {
-        sum_dg += arr[i][i];
-        sum_dp += arr[i][2-i]; 
-    } 
-        printf("Сумма по главной диагонали: %lf\n", sum_dg);
-        printf("Сумма по побочной диагонали: %lf\n", sum_dp);
-     
+            for(int j = 0; j<M; j++) 
+            {
+                scanf("%lf", &arr[i][j]); 
+            }
+        }    
+            for (int i = 0; i < N; i++) 
+        {
+            sum_dg += arr[i][i];
+            sum_dp += arr[i][N-i-1]; 
+        } 
+            printf("Сумма по главной диагонали: %lf\n", sum_dg);
+            printf("Сумма по побочной диагонали: %lf\n", sum_dp);
+            printf("Для старта нажмите 1");
+            scanf("%d", &x);
+    } while (x==1); 
     return 0;
 }
+
 
 
 
