@@ -10,7 +10,7 @@ int main()
 {
     int i,j;
     int N,M;
-    int х;
+    int x;
     do{
         printf("Введите кол-во строку: ");
         scanf("%d", &N);
