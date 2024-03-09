@@ -28,7 +28,7 @@ int main()
                 scanf("%lf", &arr[i][j]); 
             }
         }    
-            for (int i = 0; i < N; i++) 
+            for (int i = 0; i <= N-1; i++) 
         {
             sum_dg += arr[i][i];
             sum_dp += arr[i][N-i-1]; 
@@ -44,38 +44,42 @@ int main()
 
 
 
+
 /* 1.Объявить массив данных типа int размером 2 на 2.*/
 /* 2. Ввести с консоли его значения, */
 /* 3. вывести на консоль квадрат данной матрицы.*/
 #include <stdio.h>
 
 int main() {
-    int arr[2][2];
-    int kv[2][2];
+    int i,j;
+    int N,M;
     
- 
+    printf("Введите кол-во строку: ");
+    scanf("%d", &N);
+    printf("Введите кол-во столбцов: ");
+    scanf("%d", &M);
+    double arr[N][M];
+    double kv[N][M];
     printf("Введите значения массива:\n");
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 2; j++) {
-            scanf("%d", &arr[i][j]);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            scanf("%lf", &arr[i][j]);
         }
     }
-    
-    
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 2; j++) {
-            kv[i][j] = arr[i][0] * arr[0][j] + arr[i][1] * arr[1][j];
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            kv[i][j] = 0;
+            for (int k = 0; k < M; k++)
+                kv[i][j] += arr[i][k]*arr[k][j];
         }
     }
-    
-    
     printf("Квадрат матрицы:\n");
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 2; j++) {
-            printf("%d ", kv[i][j]);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            printf("%lf ", kv[i][j]);
         }
         printf("\n");
     }
     
-    return 0;
+    return 0; 
 }
