@@ -53,3 +53,7 @@ int main() {
     
     return 0;
 }
+
+
+#oper.h#
+int** oper(int** mA, int** mB, int n, char operation);
