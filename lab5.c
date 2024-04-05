@@ -57,3 +57,39 @@ int main() {
 
 #oper.h#
 int** oper(int** mA, int** mB, int n, char operation);
+
+#calc.c#
+#include <stdlib.h>
+
+int** oper(int** mA, int** mB, int n, char operation) {
+    int** result = (int**)malloc(n * sizeof(int*));
+    for (int i = 0; i < n; i++) {
+        result[i] = (int*)malloc(n * sizeof(int));
+    }
+    
+    if (operation == '+') {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                result[i][j] = mA[i][j] + mB[i][j];
+            }
+        }
+    } else if (operation == '-') {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                result[i][j] = mA[i][j] - mB[i][j];
+            }
+        }
+    } else if (operation == '*') {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                result[i][j] = 0;
+                for (int k = 0; k < n; k++) {
+                    result[i][j] += mA[i][k] * mB[k][j];
+                }
+            }
+        }
+    }
+    
+    return result;
+}
+
