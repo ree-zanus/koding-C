@@ -27,7 +27,7 @@ int main() {
         }
     }
     
-    char operation
+    char operation;
     printf("Vibirite operation (+, -, *): ");
     scanf(" %c", &operation);
     
