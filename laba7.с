@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>   
    
-typedef struct { 
+typedef struct {  
     char first_name[30]; 
     char last_name[30];
     int birth_year;
