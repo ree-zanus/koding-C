@@ -7,7 +7,7 @@
 typedef struct { 
     char first_name[30]; 
     int birth_year;
-    char gender[10];
+    char gender[10]; 
     float height;
 } human; 
 
