@@ -13,7 +13,7 @@ typedef struct {
 
 int sravnen(const void *a, const void *b) {
     human*A = (A*)a;
-    human*B = (B*)b;
+    human*B = (B*)b; 
 }
     
     if (A->birth_year !=B-> birth_year) {
