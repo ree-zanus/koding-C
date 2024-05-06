@@ -9,7 +9,7 @@ typedef struct {
     int birth_year;
     char gender[10];
     float height;
-} human;
+} human; 
 
 int sravnen(const void *a, const void *b) {
     human*A = (A*)a;
