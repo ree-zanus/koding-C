@@ -4,7 +4,7 @@
  
 
   
-typedef struct { 
+typedef struct {  
     char first_name[30];  
     int birth_year;
     char gender[10]; 
