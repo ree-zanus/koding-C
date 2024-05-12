@@ -3,7 +3,7 @@
 #include <string.h>
  
 
- 
+  
 typedef struct { 
     char first_name[30];  
     int birth_year;
