@@ -5,7 +5,7 @@
  
 int main() {
     int n;
-    printf("Vvedite razmernost matrici: ");
+    printf("Vvedite razmernost matrici: "); 
     scanf("%d", &n);
     
     int** mA = (int**)malloc(n * sizeof(int*));
