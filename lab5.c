@@ -2,7 +2,7 @@
 #include <stdlib.h>     
 #include <stdio.h>  
 #include "oper.h"  
- 
+  
 int main() {
     int n;
     printf("Vvedite razmernost matrici: "); 
