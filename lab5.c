@@ -4,7 +4,7 @@
 #include "oper.h"  
   
 int main() {
-    int n;
+    int n; 
     printf("Vvedite razmernost matrici: "); 
     scanf("%d", &n);
     
