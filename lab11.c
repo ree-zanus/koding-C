@@ -1,14 +1,13 @@
-//main.c
 #include "math_operations.h"
 #include <stdio.h>
 
 int main() {
     int n;
-    printf("Enter the number of values: ");
+    printf("Введите кол-во чисел: ");
     scanf("%d", &n);
 
     double value;
-    printf("Enter %d values:\n", n);
+    printf("Введите %d числа:\n", n);
 
     double numbers[n];
     for (int i = 0; i < n; ++i) {
@@ -26,20 +25,28 @@ int main() {
     printf("Max: %.2f\n", result_max);
     printf("Min: %.2f\n", result_min);
     printf("Average: %.2f\n", result_avg);
+    arr(5,'q','w','e','r','r');
+
+
 
     return 0;
 }
-
 //math_operations.h
 #ifndef MATHOPERATIONSH
 #define MATHOPERATIONSH
+
 
 double sum(int count, ...);
 double max(int count, ...);
 double min(int count, ...);
 double average(int count, ...);
+void printCharacters(int count, ...);
+char arr(int count, ...);
 
 #endif
+
+
+
 
 
 //math_operations.c
@@ -107,3 +114,35 @@ double average(int count, ...) {
 
     return count > 0 ? total / count : 0;
 }
+
+char arr(int count, ...) {
+    char alphabeta;
+    va_list args;
+    int i = 0;
+    //         printf (" %d ", i);      
+    
+    va_start(args, count);
+     //    printf (" %d ", i);      
+    for (int i = 0; i < count; ++i) {
+        alphabeta = va_arg(args, int);
+      //   printf (" %d ", i);       
+        printf (" %c ", alphabeta);
+    }
+
+    va_end(args);
+
+    return 0;
+}
+
+
+
+void printCharacters(int count, ...) {
+    printf("Введите %d символа:\n", count);
+
+    char character;
+    for (int i = 0; i < count; ++i) {
+        scanf(" %c", &character); // Пробел перед %c для игнорирования символов новой строки
+        printf("%c ", character);
+    }
+}
+
