@@ -3,7 +3,7 @@
 //Вывести на консоль полученную строку.
 #include <stdio.h>
 
-int main() {
+int main() { 
     char str[80];
     int i = 0;
 
