@@ -83,3 +83,170 @@ int main() {
 
     return 0;
 }
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+
+// Прототипы функций
+void generate_numbers(int *numbers, int n);
+void replace_numbers(int *numbers, int n);
+void save_numbers_to_file(int *numbers, int n);
+void read_numbers_from_file(int *numbers, int n);
+void convert_vector_to_matrix(int *numbers, int n, int m, int **matrix);
+void print_matrix(int **matrix, int rows, int cols);
+void sum_rows_and_cols(int **matrix, int rows, int cols, int *row_sums, int *col_sums);
+double get_time_elapsed(clock_t start, clock_t end);
+
+int main() {
+    int n, m;
+
+    // Получаем размер вектора и матрицы с консоли
+    printf("Введите количество чисел: ");
+    scanf("%d", &n);
+    printf("Введите количество столбцов в матрице: ");
+    scanf("%d", &m);
+
+    // Создаем и заполняем вектор случайными числами
+    int *numbers = (int *) malloc(n * sizeof(int));
+    generate_numbers(numbers, n);
+
+    // Заменяем числа, которые делятся на 5, 7 или 5 и 7, на слова
+    replace_numbers(numbers, n);
+
+    // Сохраняем числа в файл input.txt
+    save_numbers_to_file(numbers, n);
+
+    // Закрываем файл и очищаем массив
+    fclose(fopen("input.txt", "w"));
+    free(numbers);
+
+    // Открываем файл и считываем числа
+    numbers = (int *) malloc(n * sizeof(int));
+    read_numbers_from_file(numbers, n);
+
+    // Преобразуем вектор чисел в матрицу
+    int **matrix = (int **) malloc(n / m * sizeof(int *));
+    for (int i = 0; i < n / m; i++) {
+        matrix[i] = (int *) malloc(m * sizeof(int));
+    }
+    convert_vector_to_matrix(numbers, n, m, matrix);
+
+    // Вычисляем суммы строк и столбцов
+    int *row_sums = (int *) malloc(n / m * sizeof(int));
+    int *col_sums = (int *) malloc(m * sizeof(int));
+    sum_rows_and_cols(matrix, n / m, m, row_sums, col_sums);
+
+    // Запускаем замер времени
+    clock_t start = clock();
+
+    // Печатаем матрицу и результаты сложения
+    printf("\nМатрица:\n");
+    print_matrix(matrix, n / m, m);
+    printf("\nСуммы строк: ");
+    for (int i = 0; i < n / m; i++) {
+        printf("%d ", row_sums[i]);
+    }
+    printf("\nСуммы столбцов: ");
+    for (int i = 0; i < m; i++) {
+        printf("%d ", col_sums[i]);
+    }
+
+    // Останавливаем замер времени и выводим его на экран
+    clock_t end = clock();
+    double time_elapsed = get_time_elapsed(start, end);
+    printf("\nВремя работы программы: %.6f секунд\n", time_elapsed);
+
+    // Освобождаем память
+    for (int i = 0; i < n / m; i++) {
+        free(matrix[i]);
+    }
+    free(matrix);
+    free(numbers);
+    free(row_sums);
+    free(col_sums);
+
+    return 0;
+}
+
+// Функция для генерации случайных чисел
+void generate_numbers(int *numbers, int n) {
+    for (int i = 0; i < n; i++) {
+        numbers[i] = rand() % 100;
+    }
+}
+
+// Функция для замены чисел, которые делятся на 5, 7 или 5 и 7, на слова
+void replace_numbers(int *numbers, int n) {
+    for (int i = 0; i < n; i++) {
+        if (numbers[i] % 5 == 0 && numbers[i] % 7 == 0) {
+            strcpy((char *) &numbers[i], "ПЯТЬСЕМЬ");
+        } else if (numbers[i] % 5 == 0) {
+            strcpy((char *) &numbers[i], "ПЯТЬ");
+        } else if (numbers[i] % 7 == 0) {
+            strcpy((char *) &numbers[i], "СЕМЬ");
+        }
+    }
+}
+
+// Функция для сохранения чисел в файл
+void save_numbers_to_file(int *numbers, int n) {
+    FILE *output_file = fopen("input.txt", "w");
+    for (int i = 0; i < n; i++) {
+        fprintf(output_file, "%d ", numbers[i]);
+    }
+    fclose(output_file);
+}
+
+// Функция для считывания чисел из файла
+void read_numbers_from_file(int *numbers, int n) {
+    FILE *input_file = fopen("input.txt", "r");
+    for (int i = 0; i < n; i++) {
+        fscanf(input_file, "%d ", &numbers[i]);
+    }
+    fclose(input_file);
+}
+
+// Функция для преобразования вектора чисел в матрицу
+void convert_vector_to_matrix(int *numbers, int n, int m, int **matrix) {
+    for (int i = 0; i < n / m; i++) {
+        for (int j = 0; j < m; j++) {
+            matrix[i][j] = numbers[i * m + j];
+        }
+    }
+}
+
+// Функция для печати матрицы
+void print_matrix(int **matrix, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Функция для вычисления сумм строк и столбцов
+void sum_rows_and_cols(int **matrix, int rows, int cols, int *row_sums, int *col_sums) {
+    for (int i = 0; i < rows; i++) {
+        row_sums[i] = 0;
+        for (int j = 0; j < cols; j++) {
+            row_sums[i] += matrix[i][j];
+        }
+    }
+    for (int j = 0; j < cols; j++) {
+        col_sums[j] = 0;
+        for (int i = 0; i < rows; i++) {
+            col_sums[j] += matrix[i][j];
+        }
+    }
+}
+
+// Функция для замера времени работы программы
+double get_time_elapsed(clock_t start, clock_t end) {
+    return (double) (end - start) / CLOCKS_PER_SEC;
+}
