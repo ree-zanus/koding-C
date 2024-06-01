@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    int N, M;
+    printf("Введите количество случайных чисел N: ");
+    scanf("%d", &N);
+
+    printf("Введите количество столбцов M: ");
+    scanf("%d", &M);
+
+    FILE *file;
+    file = fopen("input.txt", "w");
+
+    srand(time(0));
+    for (int i = 0; i < N; i++) {
+        fprintf(file, "%d ", rand() % 100); // Генерация случайных чисел от 0 до 99
+    }
+
+    fclose(file);
+
+    file = fopen("input.txt", "r");
+    FILE *output = fopen("output.txt", "w");
+
+    int num;
+    while (fscanf(file, "%d", &num) != EOF) {
+        if (num % 5 == 0 && num % 7 == 0) {
+            fprintf(output, "ПЯТЬСЕМЬ ");
+        } else if (num % 5 == 0) {
+            fprintf(output, "ПЯТЬ ");
+        } else if (num % 7 == 0) {
+            fprintf(output, "СЕМЬ ");
+        } else {
+            fprintf(output, "%d ", num);
+        }
+    }
+
+    fclose(file);
+    fclose(output);
+
+    // Формирование матрицы
+    file = fopen("output.txt", "r");
+    int matrix[N][M];
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            if (fscanf(file, "%d", &matrix[i][j]) == EOF) {
+                break;
+            }
+        }
+    }
+
+    // Вывод матрицы
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+
+    // Подсчет сумм строк и столбцов
+    int rowSum[N], colSum[M];
+    for (int i = 0; i < N; i++) {
+        rowSum[i] = 0;
+        for (int j = 0; j < M; j++) {
+            rowSum[i] += matrix[i][j];
+            colSum[j] += matrix[i][j];
+        }
+    }
+
+    // Вывод результатов сложения
+    printf("\nСуммы строк:\n");
+    for (int i = 0; i < N; i++) {
+        printf("Строка %d: %d\n", i+1, rowSum[i]);
+    }
+
+    printf("\nСуммы столбцов:\n");
+    for (int j = 0; j < M; j++) {
+        printf("Столбец %d: %d\n", j+1, colSum[j]);
+    }
+
+    fclose(file);
+
+    return 0;
+}
