@@ -129,3 +129,297 @@ int main() {
     return 0;
 }
 
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Прототипы функций
+void generate_matrix(int **matrix, int rows, int cols);
+void print_matrix(int **matrix, int rows, int cols);
+void multiply_matrices(int **matrix1, int **matrix2, int **result, int rows1, int cols1, int cols2);
+void add_matrices(int **matrix1, int **matrix2, int **result, int rows, int cols);
+double get_time_elapsed(clock_t start, clock_t end);
+
+int main() {
+    int rows, cols;
+
+    // Получаем размер матриц с консоли
+    printf("Введите количество строк: ");
+    scanf("%d", &rows);
+    printf("Введите количество столбцов: ");
+    scanf("%d", &cols);
+
+    // Создаем и заполняем две матрицы
+    int **matrix1 = (int **) malloc(rows * sizeof(int *));
+    int **matrix2 = (int **) malloc(rows * sizeof(int *));
+    for (int i = 0; i < rows; i++) {
+        matrix1[i] = (int *) malloc(cols * sizeof(int));
+        matrix2[i] = (int *) malloc(cols * sizeof(int));
+    }
+
+    // Получаем значения для матриц с консоли
+    printf("Введите значения для первой матрицы:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            scanf("%d ", &matrix1[i][j]);
+        }
+    }
+    printf("Введите значения для второй матрицы:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            scanf("%d ", &matrix2[i][j]);
+        }
+    }
+
+    // Печатаем исходные матрицы
+    printf("Исходная матрица 1:\n");
+    print_matrix(matrix1, rows, cols);
+    printf("\nИсходная матрица 2:\n");
+    print_matrix(matrix2, rows, cols);
+
+    // Закрываем файл input.txt и очищаем массивы
+    fclose(fopen("input.txt", "w"));
+    for (int i = 0; i < rows; i++) {
+        free(matrix1[i]);
+        free(matrix2[i]);
+    }
+    free(matrix1);
+    free(matrix2);
+
+    // Открываем файл input.txt и считываем матрицы
+    FILE *input_file = fopen("input.txt", "r");
+    matrix1 = (int **) malloc(rows * sizeof(int *));
+    matrix2 = (int **) malloc(rows * sizeof(int *));
+    for (int i = 0; i < rows; i++) {
+        matrix1[i] = (int *) malloc(cols * sizeof(int));
+        matrix2[i] = (int *) malloc(cols * sizeof(int));
+        for (int j = 0; j < cols; j++) {
+            fscanf(input_file, "%d ", &matrix1[i][j]);
+            fscanf(input_file, "%d ", &matrix2[i][j]);
+        }
+    }
+    fclose(input_file);
+
+    // Создаем матрицу для результата перемножения и сложения
+    int **result = (int **) malloc(rows * sizeof(int *));
+    for (int i = 0; i < rows; i++) {
+        result[i] = (int *) malloc(cols * sizeof(int));
+    }
+
+    // Запускаем замер времени
+    clock_t start = clock();
+
+    // Выполняем перемножение и сложение матриц
+    multiply_matrices(matrix1, matrix2, result, rows, cols, cols);
+    add_matrices(matrix1, matrix2, result, rows, cols);
+
+    // Останавливаем замер времени и выводим результат
+    clock_t end = clock();
+    double time_elapsed = get_time_elapsed(start, end);
+    printf("\nРезультат перемножения и сложения:\n");
+    print_matrix(result, rows, cols);
+
+    // Выводим время работы программы
+    printf("\nВремя работы программы: %.6f секунд\n", time_elapsed);
+
+    // Освобождаем память
+    for (int i = 0; i < rows; i++) {
+        free(matrix1[i]);
+        free(matrix2[i]);
+        free(result[i]);
+    }
+    free(matrix1);
+    free(matrix2);
+    free(result);
+
+    return 0;
+}
+
+// Функция для заполнения матрицы случайными значениями
+void generate_matrix(int **matrix, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            matrix[i][j] = rand() % 10;
+        }
+    }
+}
+
+// Функция для печати матрицы
+void print_matrix(int **matrix, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Функция для перемножения матриц
+void multiply_matrices(int **matrix1, int **matrix2, int **result, int rows1, int cols1, int cols2) {
+    for (int i = 0; i < rows1; i++) {
+        for (int j = 0; j < cols2; j++) {
+            result[i][j] = 0;
+
+
+for (int k = 0; k < cols1; k++) {
+                result[i][j] += matrix1[i][k] * matrix2[k][j];
+            }
+        }
+    }
+}
+
+// Функция для сложения матриц
+void add_matrices(int **matrix1, int **matrix2, int **result, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] += matrix1[i][j] + matrix2[i][j];
+        }
+    }
+}
+
+// Функция для замера времени работы программы
+double get_time_elapsed(clock_t start, clock_t end) {
+    return (double) (end - start) / CLOCKS_PER_SEC;
+}
+
+
+
+
+
+
+// Функция для вычитания двух матриц
+double** subtractMatrices(double** matrix1, double** matrix2, int rows, int cols) {
+    double** result = allocateMatrix(rows, cols);
+    
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = matrix1[i][j] - matrix2[i][j];
+        }
+    }
+    return result;
+}
+
+// Функция для деления двух матриц
+double** divideMatrices(double** matrix1, double** matrix2, int rows, int cols) {
+    double** result = allocateMatrix(rows, cols);
+    
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (matrix2[i][j] != 0) {
+                result[i][j] = matrix1[i][j] / matrix2[i][j];
+            } else {
+                // Обработка деления на ноль
+                result[i][j] = 0; // Можно выбрать другое значение по умолчанию или обработать ошибку иначе
+            }
+        }
+    }
+    return result;
+}
+
+
+double** resultSubtract = subtractMatrices(matrix1, matrix2, rows, cols);
+double** resultDivision = divideMatrices(matrix1, matrix2, rows, cols);
+
+writeMatrixToFile(resultSubtract, rows, cols, output);
+writeMatrixToFile(resultDivision, rows, cols, output);
+
+freeMatrix(resultSubtract, rows);
+freeMatrix(resultDivision, rows);
+
+
+
+
+
+
+
+модуль
+main
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "matrix_operations.h"
+
+int main() {
+    int rows, cols;
+    printf("Enter the number of rows for the matrices: ");
+    scanf("%d", &rows);
+    printf("Enter the number of columns for the matrices: ");
+    scanf("%d", &cols);
+
+    FILE* input = fopen("input.txt", "w");
+
+    double** matrix1 = allocateMatrix(rows, cols);
+    double** matrix2 = allocateMatrix(rows, cols);
+
+    generateRandomMatrix(matrix1, rows, cols);
+    generateRandomMatrix(matrix2, rows, cols);
+
+    writeMatrixToFile(matrix1, rows, cols, input);
+    writeMatrixToFile(matrix2, rows, cols, input);
+
+    fclose(input);
+    freeMatrix(matrix1, rows);
+    freeMatrix(matrix2, rows);
+
+    input = fopen("input.txt", "r");
+    FILE* output = fopen("output.txt", "w");
+
+    matrix1 = readMatrixFromFile(rows, cols, input);
+    matrix2 = readMatrixFromFile(rows, cols, input);
+
+    clock_t start = clock();
+
+    double** resultSum = addMatrices(matrix1, matrix2, rows, cols);
+    double** resultProduct = multiplyMatrices(matrix1, matrix2, rows, cols, cols);
+
+    clock_t end = clock();
+    double timeSpent = (double)(end - start) / CLOCKS_PER_SEC;
+
+    writeMatrixToFile(resultSum, rows, cols, output);
+    writeMatrixToFile(resultProduct, rows, cols, output);
+
+    printf("Time taken to perform operations: %f seconds\n", timeSpent);
+
+    fclose(input);
+    fclose(output);
+
+    freeMatrix(matrix1, rows);
+    freeMatrix(matrix2, rows);
+    freeMatrix(resultSum, rows);
+    freeMatrix(resultProduct, rows);
+
+    return 0;
+}
+
+
+matrix_operations.h
+#ifndef MATRIX_OPERATIONS_H
+#define MATRIX_OPERATIONS_H
+
+double** allocateMatrix(int rows, int cols);
+void freeMatrix(double** matrix, int rows);
+void generateRandomMatrix(double** matrix, int rows, int cols);
+double** multiplyMatrices(double** matrix1, double** matrix2, int rows1, int cols1, int cols2);
+double** addMatrices(double** matrix1, double** matrix2, int rows, int cols);
+void writeMatrixToFile(double** matrix, int rows, int cols, FILE* file);
+double** readMatrixFromFile(int rows, int cols, FILE* file);
+
+#endif
+
+matrix_operations.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "matrix_operations.h"
+
+// Реализация функций операций с матрицами здесь
